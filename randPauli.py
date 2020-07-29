@@ -14,6 +14,19 @@ Y = np.array([[0, -1j], [1j, 0]])
 Z = np.array([[1, 0], [0, -1]])
 
 
+def num2Pauli(i):
+    if i==0:
+        return I
+    elif i==1:
+        return X
+    elif i==2:
+        return Y
+    elif i==3:
+        return Z
+    else:
+        raise ValueError("Value must be 0, 1, 2, or 3.")
+
+
 def randPauli(n):
     """
     Args:
@@ -26,15 +39,25 @@ def randPauli(n):
 
     out = np.eye(1)
     for s in seed:
-        if s==0:
-            out = np.kron(out, I)
-        elif s==1:
-            out = np.kron(out, X)
-        elif s==2:
-            out = np.kron(out, Y)
-        else:
-            out = np.kron(out, Z)
+        out = np.kron(out, num2Pauli(s))
 
     return out
         
 
+
+#def applyRandPauli(psi):
+#    """
+#    Given a quantum state, applies a random Pauli directly
+#    """
+#    N, N_temp  = psi.size, psi.size
+#    n = 0
+#    while N_temp>0:
+#        if N_temp%2==1:
+#            raise ValueError("psi is not a power of 2.")
+#        else:
+#            N_temp //= 2
+#            n += 1
+#    seed = np.random.randint(low=0, high=4, size=n)
+
+#    for i in range(n):
+#        seed[i] = 
